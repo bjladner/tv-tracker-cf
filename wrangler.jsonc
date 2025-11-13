@@ -13,12 +13,19 @@
 	"observability": {
 		"enabled": true
 	},
-  "routes": [
-    {
-      "pattern": "tv-tracker.labnerd.net",
-      "custom_domain": true
-    }
-  ]
+	"routes": [
+		{
+			"pattern": "tv-tracker-cf.labnerd.net",
+			"custom_domain": true
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "tv_tracker_db",
+			"database_name": "tv-tracker-db",
+			"database_id": "be5505ad-3e89-4826-a984-7ee018ad276e"
+		}
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
