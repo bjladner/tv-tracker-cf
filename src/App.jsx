@@ -1,58 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import cloudflareLogo from './assets/Cloudflare_Logo.svg'
-import './App.css'
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router";
+import Topbar from './components/Topbar'
+import AppAlert from './components/AppAlert';
+import AllShows from './pages/AllShows';
+import OneShow from './pages/OneShow';
+import SearchResults from './pages/SearchResults';
+// import OneShowSearch from './pages/OneShowSearch';
 
-function App() {
-  const [count, setCount] = useState(0)
-  const [name, setName] = useState('unknown')
+export default function App() {
+  const [visibleAlert, setVisibleAlert] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  
+  const showAlert = ()=> {
+    setVisibleAlert(true)
+    setTimeout( () => {
+      setVisibleAlert(false)
+    }, 5000);
+  }
+  
+  const alertProps = { 
+     setAlertVariant, 
+     setAlertMessage,
+     showAlert
+  };
 
   return (
-    <>
-      <div>
-        <a href='https://vite.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-        <a href='https://workers.cloudflare.com/' target='_blank'>
-          <img src={cloudflareLogo} className='logo cloudflare' alt='Cloudflare logo' />
-        </a>
-      </div>
-      <h1>Vite + React + Cloudflare</h1>
-      <div className='card'>
-        <button
-          onClick={() => setCount((count) => count + 1)}
-          aria-label='increment'
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <div className='card'>
-        <button
-          onClick={() => {
-            fetch('/api/')
-              .then((res) => res.json())
-              .then((data) => setName(data.name))
-          }}
-          aria-label='get name'
-        >
-          Name from API is: {name}
-        </button>
-        <p>
-          Edit <code>worker/index.js</code> to change the name
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="bg-dark text-white" style={{ minHeight: '100vh' }}>
+      <BrowserRouter>
+        <Topbar />
+        {visibleAlert && <AppAlert alertVariant={alertVariant} alertMessage={alertMessage} />}
+        <Routes>
+          <Route path="/" element={<AllShows />} />
+          <Route path="/tvshow/:showID" element={<OneShow alertProps={alertProps} />} />
+          <Route path="/search/:showName" element={<SearchResults alertProps={alertProps} />} />
+          {/* <Route path="/search/show/:showID" element={<OneShowSearch alertProps={alertProps} />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
-
-export default App
