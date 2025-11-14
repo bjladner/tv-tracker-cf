@@ -6,19 +6,20 @@ export default function TvShow({ showData }) {
 
   return (
     <ListGroup.Item className="bg-dark text-white">
-      <Link to={`/tvshow/${showData._id}/`}>{showData.title}</Link> - {showData.platform} - {returnNextEpisode(showData)}
+      <Link to={`/tvshow/${showData.ShowId}/`}>{showData.ShowTitle}</Link> - {showData.Platform} - {returnNextEpisode(showData)}
     </ ListGroup.Item>
   )
 }
 
 
 // {
-//   "_id":"68b4784c4cc9224a54fab221",
-//   "title":"Slow Horses",
-//   "tvMazeID":45039,
-//   "scheduleDay":["Wednesday"],
-//   "platform":"Apple TV+",
-//   "imageLink":"https://static.tvmaze.com/uploads/images/medium_portrait/531/1328385.jpg",
-//   "nextEpisode":"2025-09-24T00:00:00.000Z",
-//   "__v":0
+//     "ShowId": 1,
+//     "ShowTitle": "Doc",
+//     "TvMazeId": 67884,
+//     "Platform": "FOX",
+//     "ScheduleDay": "Tuesday",
+//     "ScheduleTime": "21:00",
+//     "PrevEpisode": "2025-11-11",
+//     "NextEpisode": "2025-11-18",
+//     "ImageLink": "https://static.tvmaze.com/uploads/images/medium_portrait/587/1468845.jpg"
 // }

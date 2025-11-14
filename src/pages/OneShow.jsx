@@ -35,13 +35,13 @@ export default function OneShow({ alertProps }) {
     try {
       await updateShow(showID);
       alertProps.setAlertVariant("success");
-      alertProps.setAlertMessage(`${tvShow.title} successfully updated!`);
+      alertProps.setAlertMessage(`${tvShow.ShowTitle} successfully updated!`);
       alertProps.showAlert();
     } catch (err) {
       alertProps.setAlertVariant("danger");
-      alertProps.setAlertMessage(`Failed to update ${tvShow.title}!`);
+      alertProps.setAlertMessage(`Failed to update ${tvShow.ShowTitle}!`);
       alertProps.showAlert();
-      // setError(`Failed to update ${tvShow.title}`);
+      // setError(`Failed to update ${tvShow.ShowTitle}`);
       console.error(err);
     } finally {
       setLoading(false);
@@ -50,15 +50,15 @@ export default function OneShow({ alertProps }) {
 
   const deleteOneShow = async () => {
     try {
-      console.log(`Deleting ${tvShow.title}`)
-      await deleteShow(tvShow._id);
+      console.log(`Deleting ${tvShow.ShowTitle}`)
+      await deleteShow(tvShow.ShowId);
       alertProps.setAlertVariant("success");
-      alertProps.setAlertMessage(`${tvShow.title} successfully deleted!`);
+      alertProps.setAlertMessage(`${tvShow.ShowTitle} successfully deleted!`);
       alertProps.showAlert();
       navigate(`/`)
     } catch (err) {
       alertProps.setAlertVariant("danger");
-      alertProps.setAlertMessage(`Failed to delete ${tvShow.title}!`);
+      alertProps.setAlertMessage(`Failed to delete ${tvShow.ShowTitle}!`);
       alertProps.showAlert();
       // setError(`Failed to delete ${tvShow.title}`);
       console.error(err);
@@ -79,12 +79,12 @@ export default function OneShow({ alertProps }) {
       <Container>
         <Row>
           <Col>
-            <h3>{tvShow.title} - {tvShow.platform}</h3>
+            <h3>{tvShow.ShowTitle} - {tvShow.Platform}</h3>
           </Col>
         </Row>
         <Row>
           <Col>
-            <Image src={tvShow.imageLink} rounded />
+            <Image src={tvShow.ImageLink} rounded />
           </Col>
         </Row>
         <Row>
@@ -116,12 +116,13 @@ export default function OneShow({ alertProps }) {
 
 
 // {
-//   "_id":"68b4784c4cc9224a54fab221",
-//   "title":"Slow Horses",
-//   "tvMazeID":45039,
-//   "scheduleDay":["Wednesday"],
-//   "platform":"Apple TV+",
-//   "imageLink":"https://static.tvmaze.com/uploads/images/medium_portrait/531/1328385.jpg",
-//   "nextEpisode":"2025-09-24T00:00:00.000Z",
-//   "__v":0
+//     "ShowId": 1,
+//     "ShowTitle": "Doc",
+//     "TvMazeId": 67884,
+//     "Platform": "FOX",
+//     "ScheduleDay": "Tuesday",
+//     "ScheduleTime": "21:00",
+//     "PrevEpisode": "2025-11-11",
+//     "NextEpisode": "2025-11-18",
+//     "ImageLink": "https://static.tvmaze.com/uploads/images/medium_portrait/587/1468845.jpg"
 // }

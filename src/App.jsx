@@ -5,7 +5,7 @@ import AppAlert from './components/AppAlert';
 import AllShows from './pages/AllShows';
 import OneShow from './pages/OneShow';
 import SearchResults from './pages/SearchResults';
-// import OneShowSearch from './pages/OneShowSearch';
+import OneShowSearch from './pages/OneShowSearch';
 
 export default function App() {
   const [visibleAlert, setVisibleAlert] = useState(false);
@@ -34,7 +34,7 @@ export default function App() {
           <Route path="/" element={<AllShows />} />
           <Route path="/tvshow/:showID" element={<OneShow alertProps={alertProps} />} />
           <Route path="/search/:showName" element={<SearchResults alertProps={alertProps} />} />
-          {/* <Route path="/search/show/:showID" element={<OneShowSearch alertProps={alertProps} />} /> */}
+          <Route path="/search/show/:showID" element={<OneShowSearch alertProps={alertProps} />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -5,48 +5,51 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
-import { addNewShowJson, returnNextEpisodeSearch, returnPlatform } from '../requests';
+import { addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests';
 
 
-export default function OneShowSearch({ tvShow, alertProps }) {
+export default function OneShowSearch({ alertProps }) {
   const { showID } = useParams();
+  const [tvShow, setTvShow] = useState([]);
   const [nextEpisode, setNextEpisode] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate()
 
   useEffect(() => {
-    const getNextEpisode = async (show) => {
+    const retreiveTvShow = async (showID) => {
       try {
-        const response = await returnNextEpisodeSearch(show);
-        console.log(response);
-        setNextEpisode(response);
+        console.log(showID);
+        const show = await returnSearchShow(showID);
+        setTvShow(show);
+        const nextEp = await returnNextEpisodeSearch(show);
+        setNextEpisode(nextEp);
       } catch (err) {
-        setError('Failed to retreive TV Shows');
+        setError('Failed to retreive TV Show results');
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
-    getNextEpisode(tvShow.show);
-  }, [tvShow.show]);
+    retreiveTvShow(showID);
+  }, [showID]);
   
   const addTvShow = async () => {
     try {
-      const response = await addNewShowJson(tvShow.show);
+      const response = await addNewShowJson(tvShow);
       console.log(response);
       if (response.status === "exists") {
         alertProps.setAlertVariant("warning");
-        alertProps.setAlertMessage(`${tvShow.show.name} already exists!`);
+        alertProps.setAlertMessage(`${tvShow.name} already exists!`);
         alertProps.showAlert();
       } else {
         alertProps.setAlertVariant("success");
-        alertProps.setAlertMessage(`${tvShow.show.name} successfully added!`);
+        alertProps.setAlertMessage(`${tvShow.name} successfully added!`);
         alertProps.showAlert();
       }
     } catch (err) {
       alertProps.setAlertVariant("danger");
-      alertProps.setAlertMessage(`Failed to add ${tvShow.show.name}!`);
+      alertProps.setAlertMessage(`Failed to add ${tvShow.name}!`);
       alertProps.showAlert();
       // setError(`Failed to update ${tvShow.name}`);
       console.error(err);
@@ -67,12 +70,12 @@ export default function OneShowSearch({ tvShow, alertProps }) {
       <Container>
         <Row>
           <Col>
-            <h3>{tvShow.show.name} - {returnPlatform(tvShow.show)}</h3>
+            <h3>{tvShow.name} - {returnPlatform(tvShow)}</h3>
           </Col>
         </Row>
         <Row>
           <Col>
-            {(tvShow.show.image.medium) && <Image src={tvShow.show.image.medium} rounded />}
+            {(tvShow.image.medium) && <Image src={tvShow.image.medium} rounded />}
           </Col>
         </Row>
         <Row>

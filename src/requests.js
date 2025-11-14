@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = import.meta.env.VITE_API_URL|| 'http://localhost:3000';
 const tvMazeAPI = 'https://api.tvmaze.com';
 
 export async function addNewShow(showID) {
   try {
-    const response = await axios.post(`${baseUrl}/api/tvshow/${showID}`);
+    const response = await axios.post(`/api/tvshow/${showID}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -16,7 +15,7 @@ export async function addNewShow(showID) {
 export async function addNewShowJson(showData) {
   try {
     console.log(showData);
-    const response = await axios.post(`${baseUrl}/api/tvshow`, showData);
+    const response = await axios.post(`/api/tvshow`, showData);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -26,8 +25,7 @@ export async function addNewShowJson(showData) {
 
 export async function getAllShows() {
   try {
-    console.log(baseUrl)
-    const response = await axios.get(`${baseUrl}/api/tvshows`);
+    const response = await axios.get(`/api/tvshows`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -37,7 +35,7 @@ export async function getAllShows() {
 
 export async function getOneShow(showID) {
   try {
-    const response = await axios.get(`${baseUrl}/api/tvshow/${showID}`);
+    const response = await axios.get(`/api/tvshow/${showID}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -47,7 +45,7 @@ export async function getOneShow(showID) {
 
 export async function updateShow(showID) {
   try {
-    const response = await axios.patch(`${baseUrl}/api/tvshow/${showID}`);
+    const response = await axios.patch(`/api/tvshow/${showID}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -57,18 +55,8 @@ export async function updateShow(showID) {
 
 export async function deleteShow(showID) {
   try {
-    const response = await axios.delete(`${baseUrl}/api/tvshow/${showID}`);
+    const response = await axios.delete(`/api/tvshow/${showID}`);
     console.log(`Deleting finished.`)
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function returnSearchResults(showName) {
-  try {
-    const response = await axios.get(`${baseUrl}/api/search/${showName}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -87,12 +75,20 @@ export function returnPlatform(searchData) {
 }
 
 export function returnNextEpisode(showData) {
-    if (showData.nextEpisode) {
-      return new Date(showData.nextEpisode).toDateString();
-    } else {
-      return "No Scheduled Episode";
-    }
+  if (showData.NextEpisode) {
+    return new Date(showData.NextEpisode).toDateString();
+  } else {
+    return "No Scheduled Episode";
   }
+}
+
+export function returnPrevEpisode(showData) {
+  if (showData.PrevEpisode) {
+    return new Date(showData.PrevEpisode).toDateString();
+  } else {
+    return "No Scheduled Episode";
+  }
+}
 
 export async function returnNextEpisodeSearch(searchData) {
   if (searchData._links.nextepisode) {
@@ -113,3 +109,26 @@ export async function tvShowResults(showName) {
     console.log(error);
   }
 }
+
+export async function returnSearchShow(showId) {
+  try {
+    console.log(`URL: ${tvMazeAPI}/shows/${showId}`)
+    const response = await axios.get(`${tvMazeAPI}/shows/${showId}`)
+    console.log(response.data);
+    return response.data;
+  } catch(error) {
+    console.log(error);
+  }
+}
+
+// {
+//     "ShowId": 1,
+//     "ShowTitle": "Doc",
+//     "TvMazeId": 67884,
+//     "Platform": "FOX",
+//     "ScheduleDay": "Tuesday",
+//     "ScheduleTime": "21:00",
+//     "PrevEpisode": "2025-11-11",
+//     "NextEpisode": "2025-11-18",
+//     "ImageLink": "https://static.tvmaze.com/uploads/images/medium_portrait/587/1468845.jpg"
+// }
