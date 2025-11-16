@@ -75,7 +75,6 @@ export default function AllShows({ alertProps }) {
       {(viewValue === 'table') && <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>#</th>
             <th>Show Title</th>
             <th>Platform</th>
             <th>Next Episode</th>
