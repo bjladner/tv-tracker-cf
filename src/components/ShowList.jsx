@@ -1,12 +1,10 @@
 import { Link } from 'react-router'
 import ListGroup from 'react-bootstrap/ListGroup';
-import { returnNextEpisode } from '../requests';
 
-export default function TvShow({ showData }) {
-
+export default function ShowList({ showData }) {
   return (
     <ListGroup.Item className="bg-dark text-white">
-      <Link to={`/tvshow/${showData.ShowId}/`}>{showData.ShowTitle}</Link> - {showData.Platform} - {returnNextEpisode(showData)}
+      <Link to={`/tvshow/${showData.ShowId}/`}>{showData.ShowTitle}</Link> - {showData.Platform} - {showData.NextEpisode}
     </ ListGroup.Item>
   )
 }
