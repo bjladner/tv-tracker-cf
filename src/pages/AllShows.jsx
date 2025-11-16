@@ -60,7 +60,7 @@ export default function AllShows({ alertProps }) {
         </ToggleButton>
       </ButtonGroup>
 
-      {(viewValue === 'card') && <Row xs={2} md={4} lg={6} xl={8}>
+      {(viewValue === 'card') && <Row xs={1} md={2} lg={3} xl={4} xxl={6}>
         {tvShows.map((data, index) => (
           <Col>
             <SingleShow key={index} showData={data} alertProps={alertProps}/>
