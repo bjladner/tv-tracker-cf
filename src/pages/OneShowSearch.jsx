@@ -19,12 +19,16 @@ export default function OneShowSearch({ alertProps }) {
   useEffect(() => {
     const retreiveTvShow = async (showID) => {
       try {
+        // throw new Error("This is a forced error");
         console.log(showID);
         const show = await returnSearchShow(showID);
         setTvShow(show);
         const nextEp = await returnNextEpisodeSearch(show);
         setNextEpisode(nextEp);
       } catch (err) {
+        alertProps.setAlertVariant("danger");
+        alertProps.setAlertMessage('Failed to retreive TV Show results');
+        alertProps.showAlert();
         setError('Failed to retreive TV Show results');
         console.error(err);
       } finally {
@@ -32,7 +36,7 @@ export default function OneShowSearch({ alertProps }) {
       }
     };
     retreiveTvShow(showID);
-  }, [showID]);
+  }, [alertProps, showID]);
   
   const addTvShow = async () => {
     try {

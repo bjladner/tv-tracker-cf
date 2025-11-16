@@ -16,18 +16,22 @@ export default function OneShow({ alertProps }) {
   useEffect(() => {
     const retreiveTvShow = async () => {
       try {
+        // throw new Error("This is a forced error");
         const response = await getOneShow(showID);
         console.log(response);
         setTvShow(response);
       } catch (err) {
         setError('Failed to retreive TV Show');
+        alertProps.setAlertVariant("danger");
+        alertProps.setAlertMessage(`Failed to retrieve TV Show!`);
+        alertProps.showAlert();
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
     retreiveTvShow();
-  }, [showID]);
+  }, [alertProps, showID]);
   
   const refreshData = async () => {
     try {
@@ -39,7 +43,6 @@ export default function OneShow({ alertProps }) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to update ${tvShow.ShowTitle}!`);
       alertProps.showAlert();
-      // setError(`Failed to update ${tvShow.ShowTitle}`);
       console.error(err);
     } finally {
       setLoading(false);
@@ -58,7 +61,6 @@ export default function OneShow({ alertProps }) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to delete ${tvShow.ShowTitle}!`);
       alertProps.showAlert();
-      // setError(`Failed to delete ${tvShow.title}`);
       console.error(err);
     } finally {
       setLoading(false);

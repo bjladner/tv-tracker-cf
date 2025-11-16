@@ -16,10 +16,14 @@ export default function SearchResults({ alertProps }) {
   useEffect(() => {
     const retreiveTvShows = async (showName) => {
       try {
+        // throw new Error("This is a forced error");
         console.log(showName);
         const response = await tvShowResults(showName);
         setSearchResults(response);
       } catch (err) {
+        alertProps.setAlertVariant("danger");
+        alertProps.setAlertMessage('Failed to retreive TV Show results');
+        alertProps.showAlert();
         setError('Failed to retreive TV Show results');
         console.error(err);
       } finally {
@@ -27,7 +31,7 @@ export default function SearchResults({ alertProps }) {
       }
     };
     retreiveTvShows(showName);
-  }, [showName]);
+  }, [alertProps, showName]);
 
   const returnToMenu = () => {
     navigate(`/`)

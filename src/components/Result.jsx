@@ -16,7 +16,7 @@ export default function Result({ showData, alertProps }) {
         console.log(response);
         setNextEpisode(response);
       } catch (err) {
-        setError('Failed to retreive TV Shows');
+        setError('Failed to get next episode');
         console.error(err);
       } finally {
         setLoading(false);
