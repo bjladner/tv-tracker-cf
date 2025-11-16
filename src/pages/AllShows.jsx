@@ -72,7 +72,7 @@ export default function AllShows({ alertProps }) {
         ))}
       </ ListGroup>}
 
-      {(viewValue === 'table') && <Table striped bordered hover variant="dark">
+      {(viewValue === 'table') && <Table striped bordered hover responsive variant="dark">
         <thead>
           <tr>
             <th>Show Title</th>
