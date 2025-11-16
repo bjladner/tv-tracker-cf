@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router";
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
-import { deleteShow, getOneShow, returnNextEpisode, updateShow } from '../requests';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { deleteShow, getOneShow, updateShow } from '../requests';
 
 
 export default function OneShow({ alertProps }) {
@@ -75,42 +73,29 @@ export default function OneShow({ alertProps }) {
   if (error) return <div>{error}</div>;
   
   return (
-    <div className="text-white">
-      <Container>
-        <Row>
-          <Col>
-            <h3>{tvShow.ShowTitle} - {tvShow.Platform}</h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Image src={tvShow.ImageLink} rounded />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h4>Next Episode: {returnNextEpisode(tvShow)}</h4>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button variant="primary" onClick={refreshData}>
-              Refresh Data
-            </Button>
-          </Col>
-          <Col>
-            <Button variant="danger" onClick={deleteOneShow}>
-              Delete Show
-            </Button>
-          </Col>
-          <Col>
-            <Button variant="primary" onClick={returnToMenu}>
-              All Shows
-            </Button>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={tvShow.ImageLink} />
+      <Card.Body>
+        <Card.Title>{tvShow.ShowTitle} on {tvShow.Platform}</Card.Title>
+        {/* <Card.Text>
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </Card.Text> */}
+      </Card.Body>
+      <ListGroup className="list-group-flush">
+        <ListGroup.Item>Next Episode: {tvShow.NextEpisode}</ListGroup.Item>
+        <ListGroup.Item>Previous Episode: {tvShow.PrevEpisode}</ListGroup.Item>
+      </ListGroup>
+      <Button variant="primary" onClick={refreshData}>
+        Refresh Data
+      </Button>
+      <Button variant="danger" onClick={deleteOneShow}>
+        Delete Show
+      </Button>
+      <Button variant="primary" onClick={returnToMenu}>
+        All Shows
+      </Button>
+    </Card>
   )
 }
 

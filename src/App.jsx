@@ -31,7 +31,7 @@ export default function App() {
         <Topbar />
         {visibleAlert && <AppAlert alertVariant={alertVariant} alertMessage={alertMessage} />}
         <Routes>
-          <Route path="/" element={<AllShows />} />
+          <Route path="/" element={<AllShows alertProps={alertProps} />} />
           <Route path="/tvshow/:showID" element={<OneShow alertProps={alertProps} />} />
           <Route path="/search/:showName" element={<SearchResults alertProps={alertProps} />} />
           <Route path="/search/show/:showID" element={<OneShowSearch alertProps={alertProps} />} />

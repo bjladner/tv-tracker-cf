@@ -51,7 +51,6 @@ export default function OneShowSearch({ alertProps }) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to add ${tvShow.name}!`);
       alertProps.showAlert();
-      // setError(`Failed to update ${tvShow.name}`);
       console.error(err);
     } finally {
       setLoading(false);
