@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from "react-router";
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
-import { addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests';
-
+import { TvShowContext } from '../Contexts.js';
+import { getAllShows, addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests';
 
 export default function OneShowSearch({ alertProps }) {
   const { showID } = useParams();
+  const dataProps = useContext(TvShowContext);
   const [tvShow, setTvShow] = useState([]);
   const [nextEpisode, setNextEpisode] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,9 +41,9 @@ export default function OneShowSearch({ alertProps }) {
   
   const addTvShow = async () => {
     try {
-      const response = await addNewShowJson(tvShow);
-      console.log(response);
-      if (response.status === "exists") {
+      const response1 = await addNewShowJson(tvShow);
+      console.log(response1);
+      if (response1.status === "exists") {
         alertProps.setAlertVariant("warning");
         alertProps.setAlertMessage(`${tvShow.name} already exists!`);
         alertProps.showAlert();
@@ -51,6 +52,9 @@ export default function OneShowSearch({ alertProps }) {
         alertProps.setAlertMessage(`${tvShow.name} successfully added!`);
         alertProps.showAlert();
       }
+      const response2 = await getAllShows();
+      console.log(response2);
+      dataProps.setTvShows(response2);
     } catch (err) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to add ${tvShow.name}!`);

@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { deleteShow, getOneShow, updateShow } from '../requests';
-
+import { deleteShow, getOneShow, getAllShows, updateShow } from '../requests';
+import { TvShowContext } from '../Contexts.js';
 
 export default function OneShow({ alertProps }) {
   const { showID } = useParams();
+  const dataProps = useContext(TvShowContext);
   const [tvShow, setTvShow] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,6 +37,9 @@ export default function OneShow({ alertProps }) {
   const refreshData = async () => {
     try {
       await updateShow(showID);
+      const response = await getAllShows();
+      console.log(response);
+      dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
       alertProps.setAlertMessage(`${tvShow.ShowTitle} successfully updated!`);
       alertProps.showAlert();
@@ -53,6 +57,9 @@ export default function OneShow({ alertProps }) {
     try {
       console.log(`Deleting ${tvShow.ShowTitle}`)
       await deleteShow(tvShow.ShowId);
+      const response = await getAllShows();
+      console.log(response);
+      dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
       alertProps.setAlertMessage(`${tvShow.ShowTitle} successfully deleted!`);
       alertProps.showAlert();

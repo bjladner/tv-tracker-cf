@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { deleteShow, updateShow } from '../requests';
+import { deleteShow, updateShow, getAllShows } from '../requests';
+import { TvShowContext } from '../Contexts.js';
 
 export default function SingleShow({ showData, alertProps }) {
+  const dataProps = useContext(TvShowContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
   const refreshData = async () => {
     try {
       await updateShow(showData.ShowID);
+      const response = await getAllShows();
+      console.log(response);
+      dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
       alertProps.setAlertMessage(`${showData.ShowTitle} successfully updated!`);
       alertProps.showAlert();
@@ -29,6 +34,9 @@ export default function SingleShow({ showData, alertProps }) {
     try {
       console.log(`Deleting ${showData.ShowTitle}`)
       await deleteShow(showData.ShowId);
+      const response = await getAllShows();
+      console.log(response);
+      dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
       alertProps.setAlertMessage(`${showData.ShowTitle} successfully deleted!`);
       alertProps.showAlert();

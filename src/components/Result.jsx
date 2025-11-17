@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router';
-import { addNewShowJson, returnNextEpisodeSearch, returnPlatform } from '../requests'
+import { TvShowContext } from '../Contexts.js';
+import { getAllShows, addNewShowJson, returnNextEpisodeSearch, returnPlatform } from '../requests'
 
 export default function Result({ showData, alertProps }) {
+  const dataProps = useContext(TvShowContext);
   const [nextEpisode, setNextEpisode] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,9 +29,9 @@ export default function Result({ showData, alertProps }) {
   
   const addTvShow = async () => {
     try {
-      const response = await addNewShowJson(showData.show);
-      console.log(response);
-      if (response.status === "exists") {
+      const response1 = await addNewShowJson(showData.show);
+      console.log(response1);
+      if (response1.status === "exists") {
         alertProps.setAlertVariant("warning");
         alertProps.setAlertMessage(`${showData.show.name} already exists!`);
         alertProps.showAlert();
@@ -38,6 +40,9 @@ export default function Result({ showData, alertProps }) {
         alertProps.setAlertMessage(`${showData.show.name} successfully added!`);
         alertProps.showAlert();
       }
+      const response2 = await getAllShows();
+      console.log(response2);
+      dataProps.setTvShows(response2);
     } catch (err) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to add ${showData.show.name}!`);

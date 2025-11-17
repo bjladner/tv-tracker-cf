@@ -2,12 +2,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
+import ToggleButton from 'react-bootstrap/ToggleButton'
 import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router'
+import { TvShowContext } from '../Contexts.js';
 
-export default function Topbar() {
+export default function Topbar({ viewProps }) {
+  const dataProps = useContext(TvShowContext);
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState('');
   
@@ -43,6 +47,37 @@ export default function Topbar() {
           </Col>
         </Row>
       </Container>
+
+      <ButtonGroup>
+        {viewProps.views.map((view, idx) => (
+          <ToggleButton
+            key={idx}
+            id={`view-${idx}`}
+            type="radio"
+            name="radio-view"
+            value={view.value}
+            checked={viewProps.viewValue === view.value}
+            onChange={(e) => viewProps.setViewValue(e.currentTarget.value)}
+          >
+            {view.name}
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+
+      <ButtonGroup>
+        {dataProps.columns.map((column, idx) => (
+          <Button
+            key={idx}
+            id={`sort-${idx}`}
+            type="button"
+            name="btn-sort"
+            onClick={() => dataProps.sortFunction(column.value)}
+          >
+            Sort by {column.name}
+          </Button>
+        ))}
+      </ButtonGroup>
+
     </Navbar>
   )
 }
