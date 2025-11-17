@@ -6,15 +6,16 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ShowList from '../components/ShowList';
 import SingleShow from '../components/SingleShow';
-import { TvShowContext } from '../Contexts.js';
-// import { getAllShows } from '../requests';
+import { AlertContext, TvShowContext, ViewContext } from '../contexts/Contexts.js';
 
-export default function AllShows({ viewValue, alertProps }) {
+export default function AllShows() {
+  const alertProps = useContext(AlertContext);
   const dataProps = useContext(TvShowContext);
+  const viewProps = useContext(ViewContext);
 
   return (
     <>
-      {(viewValue === 'card') && <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6}>
+      {(viewProps.viewValue === 'card') && <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6}>
         {dataProps.tvShows.map((data, index) => (
           <Col>
             <SingleShow key={index} showData={data} alertProps={alertProps}/>
@@ -22,13 +23,13 @@ export default function AllShows({ viewValue, alertProps }) {
         ))}
       </Row>}
 
-      {(viewValue === 'list') && <ListGroup className="bg-dark text-white">
+      {(viewProps.viewValue === 'list') && <ListGroup className="bg-dark text-white">
         {dataProps.tvShows.map((data, index) => (
           <ShowList key={index} showData={data} />
         ))}
       </ ListGroup>}
 
-      {(viewValue === 'table') && <Table striped bordered hover responsive variant="dark">
+      {(viewProps.viewValue === 'table') && <Table striped bordered hover responsive variant="dark">
         <thead>
           <tr>
             {dataProps.columns.map((col, idx) => (

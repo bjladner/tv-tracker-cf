@@ -8,10 +8,11 @@ import ToggleButton from 'react-bootstrap/ToggleButton'
 import Form from 'react-bootstrap/Form';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router'
-import { TvShowContext } from '../Contexts.js';
+import { TvShowContext, ViewContext } from '../contexts/Contexts.js';
 
-export default function Topbar({ viewProps }) {
+export default function Topbar() {
   const dataProps = useContext(TvShowContext);
+  const viewProps = useContext(ViewContext);
   const navigate = useNavigate();
   const [userInput, setUserInput] = useState('');
   

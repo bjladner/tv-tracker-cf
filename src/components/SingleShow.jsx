@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { deleteShow, updateShow, getAllShows } from '../requests';
-import { TvShowContext } from '../Contexts.js';
+import { TvShowContext } from '../contexts/Contexts.js';
 
 export default function SingleShow({ showData, alertProps }) {
   const dataProps = useContext(TvShowContext);

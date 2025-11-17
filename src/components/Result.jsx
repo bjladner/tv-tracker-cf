@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router';
-import { TvShowContext } from '../Contexts.js';
+import { TvShowContext } from '../contexts/Contexts.js';
 import { getAllShows, addNewShowJson, returnNextEpisodeSearch, returnPlatform } from '../requests'
 
 export default function Result({ showData, alertProps }) {

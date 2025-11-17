@@ -4,10 +4,11 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { deleteShow, getOneShow, getAllShows, updateShow } from '../requests';
-import { TvShowContext } from '../Contexts.js';
+import { AlertContext, TvShowContext } from '../contexts/Contexts.js';
 
-export default function OneShow({ alertProps }) {
+export default function OneShow() {
   const { showID } = useParams();
+  const alertProps = useContext(AlertContext);
   const dataProps = useContext(TvShowContext);
   const [tvShow, setTvShow] = useState([]);
   const [loading, setLoading] = useState(true);

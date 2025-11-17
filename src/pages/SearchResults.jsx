@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { tvShowResults } from '../requests';
 import { useParams, useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Result from '../components/Result';
+import { AlertContext } from '../contexts/Contexts.js';
 
-export default function SearchResults({ alertProps }) {
+export default function SearchResults() {
+  const alertProps = useContext(AlertContext);
   const { showName } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -5,11 +5,12 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
-import { TvShowContext } from '../Contexts.js';
+import { AlertContext, TvShowContext } from '../contexts/Contexts.js';
 import { getAllShows, addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests';
 
-export default function OneShowSearch({ alertProps }) {
+export default function OneShowSearch() {
   const { showID } = useParams();
+  const alertProps = useContext(AlertContext);
   const dataProps = useContext(TvShowContext);
   const [tvShow, setTvShow] = useState([]);
   const [nextEpisode, setNextEpisode] = useState([]);

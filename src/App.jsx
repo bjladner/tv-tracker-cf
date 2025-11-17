@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { TvShowContext } from './Contexts.js';
+import { useState, useEffect, useReducer } from 'react';
+import { MyProviders } from './contexts/Providers';
 import { BrowserRouter, Routes, Route } from "react-router";
 import Topbar from './components/Topbar';
 import AppAlert from './components/AppAlert';
@@ -8,6 +8,7 @@ import OneShow from './pages/OneShow';
 import SearchResults from './pages/SearchResults';
 import OneShowSearch from './pages/OneShowSearch';
 import { getAllShows } from './requests';
+import { showsReducer } from './reducers/ShowsReducers';
 
 export default function App() {
   // AlertProps states ----------
@@ -41,7 +42,8 @@ export default function App() {
   //-----------------------------
 
   // Data states ----------------
-  const [tvShows, setTvShows] = useState([]);
+  const [tvShows, setTvShows] = useState([]);tvShows
+  const [tvShows2, showsDispatch] = useReducer(showsReducer, []);
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortCol, setSortCol] = useState("");
   const columns = [
@@ -90,16 +92,16 @@ export default function App() {
   return (
     <div className="bg-dark text-white" style={{ minHeight: '100vh' }}>
       <BrowserRouter>
-        <TvShowContext value={dataProps}>
-          <Topbar viewProps={viewProps}/>
+        <MyProviders alertProps={alertProps} dataProps={dataProps} showsDispatch={showsDispatch} viewProps={viewProps}>
+          <Topbar />
           {visibleAlert && <AppAlert alertVariant={alertVariant} alertMessage={alertMessage} />}
           <Routes>
-            <Route path="/" element={<AllShows viewValue={viewValue} alertProps={alertProps} />} />
-            <Route path="/tvshow/:showID" element={<OneShow alertProps={alertProps} />} />
-            <Route path="/search/:showName" element={<SearchResults alertProps={alertProps} />} />
-            <Route path="/search/show/:showID" element={<OneShowSearch alertProps={alertProps} />} />
+            <Route path="/" element={<AllShows />} />
+            <Route path="/tvshow/:showID" element={<OneShow />} />
+            <Route path="/search/:showName" element={<SearchResults />} />
+            <Route path="/search/show/:showID" element={<OneShowSearch />} />
           </Routes>
-        </TvShowContext>
+        </MyProviders>
       </BrowserRouter>
     </div>
   )
