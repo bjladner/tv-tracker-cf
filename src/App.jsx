@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { MyProviders } from './contexts/Providers';
 import { BrowserRouter, Routes, Route } from "react-router";
 import Topbar from './components/Topbar';
@@ -8,7 +8,6 @@ import OneShow from './pages/OneShow';
 import SearchResults from './pages/SearchResults';
 import OneShowSearch from './pages/OneShowSearch';
 import { getAllShows } from './requests';
-import { showsReducer } from './reducers/ShowsReducers';
 
 export default function App() {
   // AlertProps states ----------
@@ -42,8 +41,7 @@ export default function App() {
   //-----------------------------
 
   // Data states ----------------
-  const [tvShows, setTvShows] = useState([]);tvShows
-  const [tvShows2, showsDispatch] = useReducer(showsReducer, []);
+  const [tvShows, setTvShows] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortCol, setSortCol] = useState("");
   const columns = [
@@ -70,6 +68,7 @@ export default function App() {
   const dataProps = {
     tvShows, setTvShows, sortOrder, sortCol, columns, sortFunction,
   };
+  const dataDispatch = null;
   //-----------------------------
 
   useEffect(() => {
@@ -92,7 +91,7 @@ export default function App() {
   return (
     <div className="bg-dark text-white" style={{ minHeight: '100vh' }}>
       <BrowserRouter>
-        <MyProviders alertProps={alertProps} dataProps={dataProps} showsDispatch={showsDispatch} viewProps={viewProps}>
+        <MyProviders alertProps={alertProps} dataProps={dataProps} dataDispatch={dataDispatch} viewProps={viewProps}>
           <Topbar />
           {visibleAlert && <AppAlert alertVariant={alertVariant} alertMessage={alertMessage} />}
           <Routes>
