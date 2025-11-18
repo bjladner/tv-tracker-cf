@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
 import { AlertContext, TvShowContext } from '../contexts/Contexts.js';
-import { getAllShows, addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests';
+import { getAllShows, addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests.js';
 
 export default function OneShowSearch() {
   const { showID } = useParams();

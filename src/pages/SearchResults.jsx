@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
-import { tvShowResults } from '../requests';
+import { tvShowResults } from '../requests.js';
 import { useParams, useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Result from '../components/Result';
+import Result from '../components/Result.jsx';
 import { AlertContext } from '../contexts/Contexts.js';
 
 export default function SearchResults() {
