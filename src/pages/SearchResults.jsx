@@ -16,7 +16,7 @@ export default function SearchResults() {
 
 
   useEffect(() => {
-    const retreiveTvShows = async (showName) => {
+    const searchTvShows = async (showName) => {
       try {
         // throw new Error("This is a forced error");
         console.log(showName);
@@ -32,7 +32,7 @@ export default function SearchResults() {
         setLoading(false);
       }
     };
-    retreiveTvShows(showName);
+    searchTvShows(showName);
   }, [alertProps, showName]);
 
   const returnToMenu = () => {

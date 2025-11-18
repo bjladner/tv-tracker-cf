@@ -19,7 +19,7 @@ export default function OneShowSearch() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const retreiveTvShow = async (showID) => {
+    const searchTvShow = async (showID) => {
       try {
         // throw new Error("This is a forced error");
         console.log(showID);
@@ -37,7 +37,7 @@ export default function OneShowSearch() {
         setLoading(false);
       }
     };
-    retreiveTvShow(showID);
+    searchTvShow(showID);
   }, [alertProps, showID]);
   
   const addTvShow = async () => {
