@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router';
 import { TvShowContext } from '../contexts/Contexts.js';
-import { getAllShows, addNewShowJson, returnNextEpisodeSearch, returnPlatform } from '../requests'
+import * as Api from '../apis/requests'
 
 export default function Result({ showData, alertProps }) {
   const dataProps = useContext(TvShowContext);
@@ -14,7 +14,7 @@ export default function Result({ showData, alertProps }) {
   useEffect(() => {
     const getNextEpisode = async (show) => {
       try {
-        const response = await returnNextEpisodeSearch(show);
+        const response = await Api.returnNextEpisodeSearch(show);
         console.log(response);
         setNextEpisode(response);
       } catch (err) {
@@ -29,7 +29,7 @@ export default function Result({ showData, alertProps }) {
   
   const addTvShow = async () => {
     try {
-      const response1 = await addNewShowJson(showData.show);
+      const response1 = await Api.addNewShowJson(showData.show);
       console.log(response1);
       if (response1.status === "exists") {
         alertProps.setAlertVariant("warning");
@@ -40,7 +40,7 @@ export default function Result({ showData, alertProps }) {
         alertProps.setAlertMessage(`${showData.show.name} successfully added!`);
         alertProps.showAlert();
       }
-      const response2 = await getAllShows();
+      const response2 = await Api.getAllShows();
       console.log(response2);
       dataProps.setTvShows(response2);
     } catch (err) {
@@ -59,7 +59,7 @@ export default function Result({ showData, alertProps }) {
 
   return (
     <ListGroup.Item className="bg-dark text-white">
-      <Link to={`/search/show/${showData.show.id}/`}>{showData.show.name}</Link> - {returnPlatform(showData.show)} - {nextEpisode}
+      <Link to={`/search/show/${showData.show.id}/`}>{showData.show.name}</Link> - {Api.returnPlatform(showData.show)} - {nextEpisode}
       <Button variant="primary" onClick={addTvShow}>
         Add Show
       </Button>

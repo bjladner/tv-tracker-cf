@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { deleteShow, getOneShow, getAllShows, updateShow } from '../requests';
+import * as Api from '../apis/requests'
 import { AlertContext, TvShowContext } from '../contexts/Contexts.js';
 
 export default function OneShow() {
@@ -19,7 +19,7 @@ export default function OneShow() {
     const retreiveTvShow = async () => {
       try {
         // throw new Error("This is a forced error");
-        const response = await getOneShow(showID);
+        const response = await Api.getOneShow(showID);
         console.log(response);
         setTvShow(response);
       } catch (err) {
@@ -37,8 +37,8 @@ export default function OneShow() {
   
   const refreshData = async () => {
     try {
-      await updateShow(showID);
-      const response = await getAllShows();
+      await Api.updateShow(showID);
+      const response = await Api.getAllShows();
       console.log(response);
       dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
@@ -57,8 +57,8 @@ export default function OneShow() {
   const deleteOneShow = async () => {
     try {
       console.log(`Deleting ${tvShow.ShowTitle}`)
-      await deleteShow(tvShow.ShowId);
-      const response = await getAllShows();
+      await Api.deleteShow(tvShow.ShowId);
+      const response = await Api.getAllShows();
       console.log(response);
       dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");

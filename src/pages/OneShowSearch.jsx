@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button'
 import { AlertContext, TvShowContext } from '../contexts/Contexts.js';
-import { getAllShows, addNewShowJson, returnSearchShow, returnNextEpisodeSearch, returnPlatform } from '../requests.js';
+import * as Api from '../apis/requests'
 
 export default function OneShowSearch() {
   const { showID } = useParams();
@@ -23,9 +23,9 @@ export default function OneShowSearch() {
       try {
         // throw new Error("This is a forced error");
         console.log(showID);
-        const show = await returnSearchShow(showID);
+        const show = await Api.returnSearchShow(showID);
         setTvShow(show);
-        const nextEp = await returnNextEpisodeSearch(show);
+        const nextEp = await Api.returnNextEpisodeSearch(show);
         setNextEpisode(nextEp);
       } catch (err) {
         alertProps.setAlertVariant("danger");
@@ -42,7 +42,7 @@ export default function OneShowSearch() {
   
   const addTvShow = async () => {
     try {
-      const response1 = await addNewShowJson(tvShow);
+      const response1 = await Api.addNewShowJson(tvShow);
       console.log(response1);
       if (response1.status === "exists") {
         alertProps.setAlertVariant("warning");
@@ -53,7 +53,7 @@ export default function OneShowSearch() {
         alertProps.setAlertMessage(`${tvShow.name} successfully added!`);
         alertProps.showAlert();
       }
-      const response2 = await getAllShows();
+      const response2 = await Api.getAllShows();
       console.log(response2);
       dataProps.setTvShows(response2);
     } catch (err) {
@@ -78,7 +78,7 @@ export default function OneShowSearch() {
       <Container>
         <Row>
           <Col>
-            <h3>{tvShow.name} - {returnPlatform(tvShow)}</h3>
+            <h3>{tvShow.name} - {Api.returnPlatform(tvShow)}</h3>
           </Col>
         </Row>
         <Row>

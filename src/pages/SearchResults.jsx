@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { tvShowResults } from '../requests.js';
+import * as Api from '../apis/requests'
 import { useParams, useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -20,7 +20,7 @@ export default function SearchResults() {
       try {
         // throw new Error("This is a forced error");
         console.log(showName);
-        const response = await tvShowResults(showName);
+        const response = await Api.tvShowResults(showName);
         setSearchResults(response);
       } catch (err) {
         alertProps.setAlertVariant("danger");

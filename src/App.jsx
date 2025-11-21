@@ -7,7 +7,7 @@ import AllShows from './pages/AllShows';
 import OneShow from './pages/OneShow';
 import SearchResults from './pages/SearchResults';
 import OneShowSearch from './pages/OneShowSearch';
-import { getAllShows } from './requests';
+import * as Api from './apis/requests';
 
 export default function App() {
   // AlertProps states ----------
@@ -75,7 +75,7 @@ export default function App() {
     const retreiveTvShows = async () => {
       try {
         // throw new Error("This is a forced error");
-        const response = await getAllShows();
+        const response = await Api.getAllShows();
         console.log(response);
         setTvShows(response);
       } catch (err) {

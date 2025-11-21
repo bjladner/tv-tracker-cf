@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { deleteShow, updateShow, getAllShows } from '../requests';
+import * as Api from '../apis/requests'
 import { TvShowContext } from '../contexts/Contexts.js';
 
 export default function SingleShow({ showData, alertProps }) {
@@ -13,8 +13,8 @@ export default function SingleShow({ showData, alertProps }) {
   
   const refreshData = async () => {
     try {
-      await updateShow(showData.ShowID);
-      const response = await getAllShows();
+      await Api.updateShow(showData.ShowID);
+      const response = await Api.getAllShows();
       console.log(response);
       dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");
@@ -33,8 +33,8 @@ export default function SingleShow({ showData, alertProps }) {
   const deleteOneShow = async () => {
     try {
       console.log(`Deleting ${showData.ShowTitle}`)
-      await deleteShow(showData.ShowId);
-      const response = await getAllShows();
+      await Api.deleteShow(showData.ShowId);
+      const response = await Api.getAllShows();
       console.log(response);
       dataProps.setTvShows(response);
       alertProps.setAlertVariant("success");

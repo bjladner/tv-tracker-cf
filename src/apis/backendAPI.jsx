@@ -8,10 +8,10 @@ export default function ApiInterface({ setLoading, setError }) {
   const dataProps = useContext(TvShowContext);
   const alertProps = useContext(AlertContext);
 
-  const searchTvShows = async (searchShowName) => {
+    const searchTvShows = async (searchShowName) => {
     try {
       // throw new Error("This is a forced error");
-      console.log(searchShowName);
+      console.log(`Searching for ${searchShowName}`);
       const response = await axios.get(`${tvMazeAPI}/search/shows?q=${searchShowName}`)
       console.log(`Found ${response.data.length} shows about ${searchShowName}`);
       setSearchResults(response.data);
@@ -29,10 +29,10 @@ export default function ApiInterface({ setLoading, setError }) {
   const searchTvShow = async (searchShowID) => {
     try {
       // throw new Error("This is a forced error");
-      console.log(searchShowID);
+      console.log(`Searching for Show with ID = ${searchShowID}`);
       const response = await axios.get(`${tvMazeAPI}/shows/${searchShowID}`)
       setTvShow(response.data);
-      await getNextEpisode(searchShowID);
+      await getNextEpisode(response.data);
     } catch (err) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage('Failed to retreive TV Show results');
@@ -46,13 +46,15 @@ export default function ApiInterface({ setLoading, setError }) {
 
   const getNextEpisode = async (singleSearchShow) => {
     try {
-      let response = "No Scheduled Episode";
+      let nextEpisodeDate = "No Scheduled Episode";
+      console.log(`Getting next episode for ${singleSearchShow.name}`);
       if (singleSearchShow._links.nextepisode) {
-        const nextEpisodeData = await axios.get(singleSearchShow._links.nextepisode.href);
-        response =  new Date(nextEpisodeData.data.airdate).toDateString();
+        const response = await axios.get(singleSearchShow._links.nextepisode.href);
+        nextEpisodeDate =  new Date(response.data.airdate).toDateString();
       }
-      console.log(response);
-      setNextEpisode(response);
+      console.log(`Next air date is "${nextEpisodeDate}"`)
+      console.log(nextEpisodeDate);
+      setNextEpisode(nextEpisodeDate);
     } catch (err) {
       setError('Failed to get next episode');
       console.error(err);
@@ -63,7 +65,7 @@ export default function ApiInterface({ setLoading, setError }) {
 
   const addTvShow = async (singleSearchShow) => {
     try {
-      console.log(singleSearchShow);
+      console.log(`Adding show ${singleSearchShow.name}`);
       const response1 = await axios.post(`/api/tvshow`, singleSearchShow);
       console.log(response1.data);
       if (response1.data.status === "exists") {
@@ -76,13 +78,12 @@ export default function ApiInterface({ setLoading, setError }) {
         alertProps.showAlert();
       }
       const response2 = await getAllShows();
-      console.log(response2);
       dataProps.setTvShows(response2);
     } catch (err) {
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to add ${singleSearchShow.name}!`);
       alertProps.showAlert();
-      // setError(`Failed to update ${showData.name}`);
+      setError(`Failed to update ${singleSearchShow.name}`);
       console.error(err);
     } finally {
       setLoading(false);
@@ -96,10 +97,10 @@ export default function ApiInterface({ setLoading, setError }) {
       console.log(response.data);
       dataProps.setTvShow(response.data);
     } catch (err) {
-      setError('Failed to retreive TV Show');
       alertProps.setAlertVariant("danger");
       alertProps.setAlertMessage(`Failed to retrieve TV Show!`);
       alertProps.showAlert();
+      setError('Failed to retreive TV Show');
       console.error(err);
     } finally {
       setLoading(false);
@@ -150,22 +151,16 @@ export default function ApiInterface({ setLoading, setError }) {
       setLoading(false);
     }
   }
-
-
 }
-
 
 export async function getAllShows() {
   try {
     const response = await axios.get(`/api/tvshows`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
-
-
 
 export function returnPlatform(searchData) {
   if (searchData.network) {
