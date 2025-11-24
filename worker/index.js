@@ -6,7 +6,7 @@ import * as dbFunctions from './dbFunctions'
 const tvMazeAPI = 'https://api.tvmaze.com';
 
 const app = new Hono();
-app.get('/', (c) => c.text('Pretty Blog API'))
+app.get('/', (c) => c.text('TV Tracker API'))
 app.use(prettyJSON())
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 
