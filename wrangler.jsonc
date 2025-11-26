@@ -15,7 +15,7 @@
 	},
 	"routes": [
 		{
-			"pattern": "tv-tracker-cf.labnerd.net",
+			"pattern": "tv-tracker.labnerd.net",
 			"custom_domain": true
 		}
 	],
